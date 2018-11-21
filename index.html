@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DataMed Copy</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script>
+	// aqui tu pode controlar a quantidade de campos de texto que quer que apareça na tela
+	var QUANTIDADE_TEXT_BOX = 16;
+	
+	function copiaConteudo(id) {
+		var idTextBox = document.getElementById("text_"+id);
+		idTextBox.select();
+		document.execCommand("copy");
+		//alert("Copied the text: " + copyText.value);
+	}
+	
+	function montaTela(){
+		for(i=1; i<=QUANTIDADE_TEXT_BOX; i++){
+			getConteudo(i);
+			getTextoPadrao(i);
+		}
+	}
+	
+	function getConteudo(i){
+		var div = document.createElement('div');
+		div.className = 'col-md-3';
+		div.innerHTML = '<h2></h2><div class="form-group"><label id="lbl_'+i+'" for="text_'+i+'">Texto '+i+'</label>\
+		<textarea class="form-control" name="text_'+i+'" id="text_'+i+'" rows="3"></textarea>\
+		</div><div class="col-auto"><button onclick="copiaConteudo('+i+')" class="btn btn-primary btn-sm">Copiar</button>';
+		document.getElementById("tela").appendChild(div);
+	}
+	
+	function getTextoPadrao(id){
+		// inicia as variaveis -- nao mexer aqui a menos que tenha um cabecalho para todos textarea
+		var cabecalho = '';
+		var texto = '';
+		switch(id) {
+			case 1:
+				cabecalho = 'Cabecalho 1';
+				texto = 'Colocar o texto da caixa de texto 1 aqui dentro';
+				break;
+			case 2:
+				cabecalho = 'Cabecalho 2';
+				texto = 'Colocar o texto da caixa de texto 2 aqui dentro';
+				break;
+			case 3:
+				cabecalho = 'Cabecalho 3';
+				texto = 'Colocar o texto da caixa de texto 3 aqui dentro';
+				break;
+				// para adicionar os outros textos é só seguir esse mesmo fluxo para todos os textos
+				// e garantir que tem campo de texto para todos lá na variavel QUANTIDADE_TEXT_BOX
+				
+			default:
+				// não faz nada
+		}
+		document.getElementById("lbl_"+id).value = cabecalho;
+		document.getElementById("text_"+id).value = texto;
+	}
+	
+	
+</script>
+
+</head>
+
+<body onload="montaTela()">
+	<div class="container">
+		<h1>Cardiologia</h1>
+	</div>
+	<div class="container">
+		<main>
+			<div class="row" id="tela">
+			</div>
+		</main>
+	</div>
+</body>
+
+</html>
