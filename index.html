@@ -26,9 +26,10 @@
 	function getConteudo(i){
 		var div = document.createElement('div');
 		div.className = 'col-md-3';
-		div.innerHTML = '<h2></h2><div class="form-group"><label id="lbl_'+i+'" for="text_'+i+'">Texto '+i+'</label>\
-		<textarea class="form-control" name="text_'+i+'" id="text_'+i+'" rows="3"></textarea>\
-		</div><div class="col-auto"><button onclick="copiaConteudo('+i+')" class="btn btn-primary btn-sm">Copiar</button>';
+		div.innerHTML = '<h2></h2><div class="form-group">\
+			<input type="text" id="header_'+i+'" style="margin-bottom: 10px;">\
+			<textarea class="form-control" name="text_'+i+'" id="text_'+i+'" rows="3"></textarea>\
+			</div><div class="col-auto"><button onclick="copiaConteudo('+i+')" class="btn btn-primary btn-sm">Copiar</button>';
 		document.getElementById("tela").appendChild(div);
 	}
 	
@@ -55,7 +56,6 @@
 			default:
 				// não faz nada
 		}
-		document.getElementById("lbl_"+id).value = cabecalho;
 		document.getElementById("text_"+id).value = texto;
 	}
 	
@@ -66,14 +66,15 @@
 
 <body onload="montaTela()">
 	<div class="container">
-		<h1>Cardiologia</h1>
+		<h1>Med Data Manager</h1>
 	</div>
-	<div class="container">
+	<div class="container" style="margin-bottom:30px;">
 		<main>
 			<div class="row" id="tela">
 			</div>
 		</main>
 	</div>
+	<footer class="container text-right">&copy; 2018 - <a href="http://www.juliogriebeler.com.br" target="_blank"> Julio Griebeler </a> | <a href="http://www.jxsolucoes.com.br" target="_blank"> Jx Solucoes </a></footer>
 </body>
 
 </html>
