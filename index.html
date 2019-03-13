@@ -3,11 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <title>DataMed Copy</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<style>
+body, a, input, textarea, button {
+	color:#000000;
+	font-family: 'Arial';
+}
+* {
+	margin:0;
+	padding:0;
+}
+.clear {
+	height:1px;
+	clear:both;
+	display:block;
+	margin-top:-1px;
+	overflow:hidden;
+}
+input, textarea, button {
+	padding: 4px;
+}
+.wrapper {
+	margin: 0 20px;
+}
+.headerInput {
+	margin-bottom: 3px;
+}
+.formGroup {
+	float: left;
+	margin: 5px;
+}
+span {font-size:4px}
 
+</style>
 <script>
 	// aqui tu pode controlar a quantidade de campos de texto que quer que apareça na tela
 	var QUANTIDADE_TEXT_BOX = 16;
+	
+	// aqui vao os valores das cores
+	var VERMELHO = "#ff0000";
+	var AZUL = "#0000ff";
+	var PRETO = "#000000";
+	var VERDE = "#008000";
+	var AMARELO = "#ffff00";
+	var ROXO = "#800080";
+	var ROSA = "#ff1493";
 	
 	function copiaConteudo(id) {
 		var idTextBox = document.getElementById("text_"+id);
@@ -25,30 +64,54 @@
 	
 	function getConteudo(i){
 		var div = document.createElement('div');
-		div.className = 'col-md-3';
-		div.innerHTML = '<h2></h2><div class="form-group">\
-			<input type="text" id="header_'+i+'" style="margin-bottom: 10px;">\
-			<textarea class="form-control" name="text_'+i+'" id="text_'+i+'" rows="3"></textarea>\
-			</div><div class="col-auto"><button onclick="copiaConteudo('+i+')" class="btn btn-primary btn-sm">Copiar</button>';
+		div.innerHTML = '<div  class="formGroup" id="formGroup_'+i+'"><br>\
+			<input type="text" id="header_'+i+'" class="headerInput"><br>\
+			<textarea class="form-control" name="text_'+i+'" id="text_'+i+'" rows="8" cols="25"></textarea><br>\
+			<button id="btn_'+i+'" onclick="copiaConteudo('+i+')">Copiar</button>\
+			<span onclick="openColorChangeWindow('+i+')">\
+				<svg height="10" width="10">\
+					<circle id="circle_'+i+'" cx="5" cy="5" r="4" stroke="black" stroke-width="1" fill="red" />\
+				</svg>\
+			</span>';
 		document.getElementById("tela").appendChild(div);
 	}
 	
 	function getTextoPadrao(id){
-		// inicia as variaveis -- nao mexer aqui a menos que tenha um cabecalho para todos textarea
-		var cabecalho = '';
+		// inicia as variaveis -- nao mexer aqui a menos que tenha um header para todos textarea
+		var header = '';
 		var texto = '';
+		var color = '';
+		var colorChangeWindow = null;
 		switch(id) {
 			case 1:
-				cabecalho = 'Cabecalho 1';
+				header = 'header 1';
 				texto = 'Colocar o texto da caixa de texto 1 aqui dentro';
+				color = VERDE;
 				break;
 			case 2:
-				cabecalho = 'Cabecalho 2';
+				header = 'header 2';
 				texto = 'Colocar o texto da caixa de texto 2 aqui dentro';
+				color = VERMELHO;
 				break;
 			case 3:
-				cabecalho = 'Cabecalho 3';
+				header = 'header 3';
 				texto = 'Colocar o texto da caixa de texto 3 aqui dentro';
+				color = AZUL;
+				break;
+			case 4:
+				header = 'header 4';
+				texto = 'Colocar o texto da caixa de texto 4 aqui dentro';
+				color = ROSA;
+				break;
+			case 5:
+				header = 'header 5';
+				texto = 'Colocar o texto da caixa de texto 5 aqui dentro';
+				color = ROXO;
+				break;
+			case 6:
+				header = 'header 6';
+				texto = 'Colocar o texto da caixa de texto 5 aqui dentro';
+				color = PRETO;
 				break;
 				// para adicionar os outros textos é só seguir esse mesmo fluxo para todos os textos
 				// e garantir que tem campo de texto para todos lá na variavel QUANTIDADE_TEXT_BOX
@@ -57,6 +120,38 @@
 				// não faz nada
 		}
 		document.getElementById("text_"+id).value = texto;
+		if(color!=''){
+			setColor(id, color);
+		}
+	}
+	
+	function setColor(id, color){
+		document.getElementById("header_"+id).style.borderColor = color;
+		document.getElementById("text_"+id).style.borderColor = color;
+		document.getElementById("btn_"+id).style.borderColor = color;
+		document.getElementById("circle_"+id).style.fill = color;
+	}
+	
+	function openColorChangeWindow(id){
+		colorChangeWindow = window.open("", "colorChangeWindow"+id, "width=200,height=100");
+		var saida = "<p>Selecione a cor das bordas:</p>";
+		saida += "<button onclick='window.opener.changeColorAndCloseWindow("+id+", \""+VERMELHO+"\")'><svg height='10' width='10'><circle id='circle_"+id+"' cx='5' cy='5' r='4' stroke='black' stroke-width='1' fill='"+VERMELHO+"' /></svg></button>";
+		saida += "<button onclick='window.opener.changeColorAndCloseWindow("+id+", \""+AZUL+"\")'><svg height='10' width='10'><circle id='circle_"+id+"' cx='5' cy='5' r='4' stroke='black' stroke-width='1' fill='"+AZUL+"' /></svg></button>";
+		saida += "<button onclick='window.opener.changeColorAndCloseWindow("+id+", \""+PRETO+"\")'><svg height='10' width='10'><circle id='circle_"+id+"' cx='5' cy='5' r='4' stroke='black' stroke-width='1' fill='"+PRETO+"' /></svg></button>";
+		saida += "<button onclick='window.opener.changeColorAndCloseWindow("+id+", \""+VERDE+"\")'><svg height='10' width='10'><circle id='circle_"+id+"' cx='5' cy='5' r='4' stroke='black' stroke-width='1' fill='"+VERDE+"' /></svg></button>";
+		saida += "<button onclick='window.opener.changeColorAndCloseWindow("+id+", \""+AMARELO+"\")'><svg height='10' width='10'><circle id='circle_"+id+"' cx='5' cy='5' r='4' stroke='black' stroke-width='1' fill='"+AMARELO+"' /></svg></button>";
+		saida += "<button onclick='window.opener.changeColorAndCloseWindow("+id+", \""+ROXO+"\")'><svg height='10' width='10'><circle id='circle_"+id+"' cx='5' cy='5' r='4' stroke='black' stroke-width='1' fill='"+ROXO+"' /></svg></button>";
+		saida += "<button onclick='window.opener.changeColorAndCloseWindow("+id+", \""+ROSA+"\")'><svg height='10' width='10'><circle id='circle_"+id+"' cx='5' cy='5' r='4' stroke='black' stroke-width='1' fill='"+ROSA+"' /></svg></button>";
+		colorChangeWindow.document.write(saida);
+	}
+	
+	function changeColorAndCloseWindow(id, color){
+		console.log(id);
+		console.log(color);
+		setColor(id, color);
+		if(colorChangeWindow!=null){
+			colorChangeWindow.close();
+		}
 	}
 	
 	
@@ -65,16 +160,14 @@
 </head>
 
 <body onload="montaTela()">
-	<div class="container">
+	<div class="wrapper">
 		<h1>Med Data Manager</h1>
-	</div>
-	<div class="container" style="margin-bottom:30px;">
 		<main>
-			<div class="row" id="tela">
-			</div>
+			<div id="tela"></div>
 		</main>
+		<br class="clear">
+		<footer>&copy; 2018 - <a href="http://www.juliogriebeler.com.br" target="_blank"> Julio Griebeler </a> | <a href="http://www.jxsolucoes.com.br" target="_blank"> Jx Solucoes </a></footer>
 	</div>
-	<footer class="container text-right">&copy; 2018 - <a href="http://www.juliogriebeler.com.br" target="_blank"> Julio Griebeler </a> | <a href="http://www.jxsolucoes.com.br" target="_blank"> Jx Solucoes </a></footer>
 </body>
 
 </html>
